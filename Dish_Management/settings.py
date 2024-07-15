@@ -37,6 +37,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'rest_framework',
+    'dishes',
 ]
 
 MIDDLEWARE = [
@@ -73,10 +75,16 @@ WSGI_APPLICATION = 'Dish_Management.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
 
+# dishes_project/settings.py
+
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'dishes_db',
+        'USER': 'dish',
+        'PASSWORD': 'Dish@123',
+        'HOST': 'localhost',
+        'PORT': '3306',
     }
 }
 
