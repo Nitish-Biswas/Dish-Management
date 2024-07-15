@@ -1,0 +1,17 @@
+<!-- templates/dishes/toggle_published.html -->
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Toggle Published</title>
+</head>
+<body>
+    <h1>Toggle Dish Published Status</h1>
+    <form method="post">
+        {% csrf_token %}
+        <label for="dishId">Dish ID:</label>
+        <input type="text" id="dishId" name="dishId" required>
+        <button type="submit">Toggle Published</button>
+    </form>
+</body>
+</html>
