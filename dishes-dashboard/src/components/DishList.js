@@ -4,6 +4,7 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import DishItem from './DishItem';
 import WebSocketComponent from './WebSocketComponent';
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 const DishList = () => {
     const [dishes, setDishes] = useState([]);
@@ -13,22 +14,13 @@ const DishList = () => {
     }, []);
 
     const fetchDishes = async () => {
-        try {
-            const response = await axios.get('http://localhost:8000/api/dishes/');
-            console.log(response.data);  // Log the fetched data
-            setDishes(response.data);
-        } catch (error) {
-            console.error('Error fetching dishes:', error);
-        }
+        const response = await axios.get('http://localhost:8000/api/dishes/');
+        setDishes(response.data);
     };
 
     const togglePublished = async (dishId) => {
-        try {
-            await axios.post('http://localhost:8000/api/dishes/toggle/', { dishId });
-            fetchDishes();
-        } catch (error) {
-            console.error('Error toggling published status:', error);
-        }
+        await axios.post('http://localhost:8000/api/dishes/toggle/', { dishId });
+        fetchDishes();
     };
 
     const handleWebSocketUpdate = (data) => {
@@ -40,11 +32,15 @@ const DishList = () => {
     };
 
     return (
-        <div>
+        <div className="container mt-4">
             <WebSocketComponent onUpdate={handleWebSocketUpdate} />
-            {dishes.map(dish => (
-                <DishItem key={dish.dishId} dish={dish} togglePublished={togglePublished} />
-            ))}
+            <div className="row">
+                {dishes.map(dish => (
+                    <div key={dish.dishId} className="col-md-4">
+                        <DishItem dish={dish} togglePublished={togglePublished} />
+                    </div>
+                ))}
+            </div>
         </div>
     );
 };

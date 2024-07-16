@@ -15,36 +15,33 @@ def get_dishes(request):
     return response.Response(serializer.data)
 
 @decorators.api_view(['GET', 'POST'])
-def toggle_published(request):
+def toggle(request):
     if request.method == 'POST':
-        dish_id = request.POST.get('dishId')
+        
+        dish_id = request.data.get('dishId')
         try:
             dish = Dish.objects.get(pk=dish_id)
             dish.isPublished = not dish.isPublished
             dish.save()
 
-            # # Notify WebSocket group about the change
-            # channel_layer = get_channel_layer()
-            # async_to_sync(channel_layer.group_send)(
-            #     "dishes",
-            #     {
-            #         'type': 'dish_update',
-            #         'message': {
-            #             'id': dish.id,
-            #             'isPublished': dish.isPublished
-            #         }
-            #     }
-            # )
-
+            channel_layer = get_channel_layer()
+            async_to_sync(channel_layer.group_send)(
+                'dishes',
+                {   
+                    'type': 'dish_update',
+                    'data': DishSerializer(dish).data
+                }
+            )
+            print(DishSerializer(dish).data)
             return HttpResponse(f'Dish status toggled. New status: {dish.isPublished}')
         except Dish.DoesNotExist:
             return HttpResponse('Dish not found', status=404)
     return render(request, 'to.html')
 
 @decorators.api_view(['POST'])
-def togglere_published(request):
+def toggle_published(request):
     dish_id = request.data.get('dishId')
-    dish = get_object_or_404(Dish, pk=dish_id)
+    dish = Dish.objects.get(dishId=dish_id)
     dish.isPublished = not dish.isPublished
     dish.save()
-    return JsonResponse({'id': dish.id, 'isPublished': dish.isPublished})
+    return response.Response(DishSerializer(dish).data)
