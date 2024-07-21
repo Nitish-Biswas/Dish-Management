@@ -19,22 +19,80 @@ This is a full-stack application for managing dishes. It uses Django and Django 
 
 ## Installation
 
+### Database Setup
+
+1. **Create a user with name as 'dish' and password is 'Dish@123' **
+   ```sh
+   create user 'dish'@'localhost' indentified by 'Dish@123';
+   ```
+
+2. **Create a database with name as 'dishes_db'**
+   ```sh
+   create database dishes_db;
+   ```
+
+3. **Grant permissions to user 'dish'**
+   ```sh
+   grant all privileges on dishes_db.* to 'dish'@'localhost';
+   ```
+   ```sh
+   FLUSH PRIVILEGES;
+   ```
+
+### Server Setup
+
+1. **Install Redis**
+   
+   ***On macOS***
+   ```sh
+   brew install redis
+   ```
+   
+   ***On Windows***
+   ```sh
+   curl -fsSL https://packages.redis.io/gpg | sudo gpg --dearmor -o /usr/share/keyrings/redis-archive-keyring.gpg
+   echo "deb [signed-by=/usr/share/keyrings/redis-archive-keyring.gpg] https://packages.redis.io/deb $(lsb_release -cs) main" | sudo tee /etc/apt/sources.list.d/redis.list
+   sudo apt-get update
+   sudo apt-get install redis
+   ```
+
+2. **Run Redis Server**
+   
+   ***On macOS***
+   ```sh
+   redis-server
+   ```
+   
+   ***On Windows***
+   ```sh
+   sudo service redis-server start
+   ```
 
 ### Backend Setup
+
 
 1. **Clone the repository:**
 
     ```sh
-    git clone https://github.com/yourusername/dishes-dashboard.git
-    cd dishes-dashboard
+    git clone https://github.com/Nitish-Biswas/Dish-Management.git
+    cd Dish-Management
     ```
 
 2. **Create a virtual environment and activate it:**
 
     ```sh
-    python -m venv venv
-    source venv/bin/activate  # On Windows use `venv\Scripts\activate`
+    python3 -m venv venv
     ```
+    
+   ***On macOS***
+   ```sh
+   source venv/bin/activate
+   ```
+   
+   ***On Windows***
+   ```sh
+   venv\Scripts\activate
+   ```
 
 3. **Install the dependencies:**
 
@@ -42,50 +100,67 @@ This is a full-stack application for managing dishes. It uses Django and Django 
     pip install -r requirements.txt
     ```
 
-4. **Configure the MySQL database:**
+4. **Navigate to the backend directory:**
 
-    Create a MySQL database and update the `DATABASES` setting in `backend/settings.py`:
-
-    ```python
-    DATABASES = {
-        'default': {
-            'ENGINE': 'django.db.backends.mysql',
-            'NAME': 'dishes_db',
-            'USER': 'dish',
-            'PASSWORD': 'Dish@123',
-            'HOST': 'localhost',
-            'PORT': '3306',
-        }
-    }
-    ```
-
+  ```sh
+  cd backend
+  ```
 5. **Run database migrations:**
-
     ```sh
-    python manage.py migrate
+    python3 manage.py makemigrations
     ```
 
-6. **Run the Django development server with ASGI:**
+    ```sh
+    python3 manage.py migrate
+    ```
+
+7. **Populate the Database**
+
+   ```sh
+   python3 dishes/populate_db.py
+   ```
+
+   
+8. **Run the Django development server with ASGI:**
 
     ```sh
-    daphne -b 0.0.0.0 -p 8000 backend.asgi:application
+    python3 manage.py runserver
     ```
 
 ### Frontend Setup
 
-1. **Navigate to the frontend directory:**
+1. **Navigate to the Dish-Management directory:**
+
+    ```sh
+    cd Dish-Management
+    ```
+
+2. **Activate virtual environment**
+
+   ***On macOS***
+   ```sh
+   source venv/bin/activate
+   ```
+   
+   ***On Windows***
+   ```sh
+   venv\Scripts\activate
+   ```
+
+
+3. **Navigate to the frontend directory:**
 
     ```sh
     cd frontend
     ```
 
-2. **Install the dependencies:**
+4. **Install the dependencies:**
 
     ```sh
     npm install
     ```
 
-3. **Start the React development server:**
+5. **Start the React development server:**
 
     ```sh
     npm start
@@ -101,13 +176,15 @@ This is a full-stack application for managing dishes. It uses Django and Django 
 
 ## API Endpoints
 
-- **GET /api/dishes/**: Retrieve a list of all dishes.
-- **POST /api/dishes/toggle/**: Toggle the published status of a dish.
-- **POST /api/dishes/unpublish/<int:dish_id>/**: Unpublish a dish.
+- **GET http://127.0.0.1:8000/api/dishes/**: Retrieve a list of all dishes.
+- **POST http://127.0.0.1:8000/api/dishes/togglerest/**: Toggle the published status of a dish.
+
 
 ## WebSocket
 
 The application uses WebSockets for real-time updates. The WebSocket server runs at `ws://localhost:8000/ws/dishes/`.
 
-## Project Structure
+## Contributing
+
+Contributions are welcome! Please submit a pull request or open an issue to discuss your ideas.
 
