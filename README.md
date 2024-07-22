@@ -2,6 +2,15 @@
 
 This is a full-stack application for managing dishes. It uses Django and Django REST framework on the backend with a MySQL database, and React on the frontend. Real-time updates are handled via WebSockets.
 
+## Demo
+
+### App Demonstration
+https://www.youtube.com/watch?v=_-kaRqYxr_k
+
+### Code Explanation
+https://www.youtube.com/watch?v=rLwQaKiaHWI
+
+
 ## Features
 
 - View a list of dishes.
