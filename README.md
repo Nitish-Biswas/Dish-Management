@@ -4,11 +4,11 @@ This is a full-stack application for managing dishes. It uses Django and Django 
 
 ## Demo
 
-### App Demonstration
-https://www.youtube.com/watch?v=_-kaRqYxr_k
+#### App Demonstration
+##### https://www.youtube.com/watch?v=_-kaRqYxr_k
 
-### Code Explanation
-https://www.youtube.com/watch?v=rLwQaKiaHWI
+#### Code Explanation
+##### https://www.youtube.com/watch?v=rLwQaKiaHWI
 
 
 ## Features
@@ -30,7 +30,7 @@ https://www.youtube.com/watch?v=rLwQaKiaHWI
 
 ### Database Setup
 
-1. **Create a user with name as 'dish' and password is 'Dish@123' **
+1. **Create a user with name as 'dish' and password is 'Dish@123'**
    ```sh
    create user 'dish'@'localhost' indentified by 'Dish@123';
    ```
